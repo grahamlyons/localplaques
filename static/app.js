@@ -1,12 +1,3 @@
-/**
- * Init map
- * Get location
- * Set location on map
- * Get bounds of map
- * Get plaque data
- * Set plaques on map
- */
-
 var Tools = {
     precision: function(n) {
         var accuracy = 10000;
