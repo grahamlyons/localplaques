@@ -42,6 +42,11 @@ Map.prototype.getBounds = function() {
     return this.map.getBounds();
 }
 
+Map.prototype.onMoveEnd = function(callback) {
+    this.map.on('moveend', callback);
+    return this;
+}
+
 function Plaque(data) {
     this.data = data['plaque'];
 }
@@ -123,11 +128,12 @@ App.prototype.setup = function(location) {
             addPlaquesToMap = function(data) {
                 var plaques = data.map(function(p){return new Plaque(p);});
                 var addPlaque = function(plaque) {
-                    map.addPlaque.call(map, plaque)
+                    self.map.addPlaque.call(self.map, plaque)
                 }
                 plaques.forEach(addPlaque);
             };
         client.getPlaques(bounds, addPlaquesToMap);
     }
     getPlaques();
+    this.map.onMoveEnd(getPlaques);
 }
