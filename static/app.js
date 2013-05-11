@@ -7,6 +7,13 @@
  * Set plaques on map
  */
 
+var Tools = {
+    precision: function(n) {
+        var accuracy = 10000;
+        return parseInt(n * accuracy) / accuracy;
+    }
+};
+
 function Map(element, engine) {
     this.engine = engine;
     this.map = this.engine.map(element, {
@@ -65,10 +72,10 @@ Client.prototype.getPlaques = function(bounds, callback) {
         se = bounds.getSouthEast(),
         nw = bounds.getNorthWest();
     this.xhr.open('GET', '/plaques/' + 
-        new Number(nw.lat).toPrecision(5) + '/' + 
-        new Number(nw.lng).toPrecision(5) + '/' + 
-        new Number(se.lat).toPrecision(5) + '/' + 
-        new Number(se.lng).toPrecision(5) 
+        Tools.precision(nw.lat) + '/' + 
+        Tools.precision(nw.lng) + '/' + 
+        Tools.precision(se.lat) + '/' + 
+        Tools.precision(se.lng) 
     );
     this.xhr.onreadystatechange = function(e) {
         if (self.xhr.readyState == self.xhr.DONE) {
@@ -99,8 +106,8 @@ App.prototype.init = function() {
     this.map = new Map(this.mapElement, this.mapEngine);
     if (this.hasGeo()) {
         this.nav.geolocation.getCurrentPosition(function(e) {
-            var lat = new Number(e.coords.latitude).toPrecision(5),
-                lng = new Number(e.coords.longitude).toPrecision(5),
+            var lat = Tools.precision(e.coords.latitude),
+                lng = Tools.precision(e.coords.longitude),
                 location = [lat, lng];
             self.setup(location);
         });
