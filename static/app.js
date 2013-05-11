@@ -115,15 +115,19 @@ App.prototype.init = function() {
 }
 
 App.prototype.setup = function(location) {
+    var self = this;
     this.map.setCentre(location);
-    var client = new Client(),
-        bounds = this.map.getBounds(),
-        addPlaquesToMap = function(data) {
-            var plaques = data.map(function(p){return new Plaque(p);});
-            var addPlaque = function(plaque) {
-                map.addPlaque.call(map, plaque)
-            }
-            plaques.forEach(addPlaque);
-        };
-    client.getPlaques(bounds, addPlaquesToMap);
+    function getPlaques() {
+        var client = new Client(),
+            bounds = self.map.getBounds(),
+            addPlaquesToMap = function(data) {
+                var plaques = data.map(function(p){return new Plaque(p);});
+                var addPlaque = function(plaque) {
+                    map.addPlaque.call(map, plaque)
+                }
+                plaques.forEach(addPlaque);
+            };
+        client.getPlaques(bounds, addPlaquesToMap);
+    }
+    getPlaques();
 }
