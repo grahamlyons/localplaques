@@ -37,6 +37,10 @@ def plaques(**kwargs):
     response.headers['Content-Type'] = 'application/json'
     return response
 
+@app.route("/about")
+def about():
+    return "Info"
+
 def get_url(**kwargs):
     base_url = "http://openplaques.org"
     path = "/plaques.json"
