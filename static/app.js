@@ -17,7 +17,10 @@ function Map(element, engine) {
 }
 
 Map.prototype.setCentre = function(location) {
-    var marker = this.engine.marker(location);
+    var icon = this.engine.icon({
+        iconUrl: '/static/you-are-here.png'
+    }),
+    marker = this.engine.marker(location, {icon: icon, title: 'You are here'});
     this.map.panTo(location);
     marker.addTo(this.map);
     return this;
