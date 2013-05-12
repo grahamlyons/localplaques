@@ -6,6 +6,7 @@ var Tools = {
 };
 
 function Map(element, engine) {
+    this.plaques = {};
     this.engine = engine;
     this.map = this.engine.map(element, {
         center: [51.507222, -0.1275],
@@ -26,9 +27,20 @@ Map.prototype.setCentre = function(location) {
     return this;
 }
 
+Map.prototype.hasPlaque = function(plaque) {
+    var p = this.plaques[plaque.id];
+    return p ? true : false;
+}
+
 Map.prototype.addPlaque = function(plaque) {
-    var marker = this.engine.marker(plaque.latlng()).addTo(this.map);
-    marker.bindPopup(plaque.info());
+    if (!this.hasPlaque(plaque)) {
+        console.log("Adding plaque", plaque.id);
+        var marker = this.engine.marker(plaque.latlng()).addTo(this.map);
+        marker.bindPopup(plaque.info());
+        this.plaques[plaque.id] = plaque;
+    } else {
+        console.log("Not adding plaque", plaque.id);
+    }
     return this;
 }
 
@@ -43,6 +55,7 @@ Map.prototype.onMoveEnd = function(callback) {
 
 function Plaque(data) {
     this.data = data['plaque'];
+    this.id = this.data.id;
 }
 
 Plaque.prototype.latlng = function() {
