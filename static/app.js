@@ -87,6 +87,7 @@ function App(mapElement, mapEngine, navigator) {
     this.mapElement = mapElement;
     this.mapEngine = mapEngine;
     this.nav = navigator;
+    this.map = new Map(this.mapElement, this.mapEngine);
 }
 
 App.prototype.hasGeo = function() {
@@ -99,7 +100,6 @@ App.prototype.hasGeo = function() {
 
 App.prototype.init = function() {
     var self = this;
-    this.map = new Map(this.mapElement, this.mapEngine);
     if (this.hasGeo()) {
         this.nav.geolocation.getCurrentPosition(function(e) {
             var lat = Tools.precision(e.coords.latitude),
