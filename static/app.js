@@ -72,6 +72,9 @@ Plaque.prototype.info = function() {
     if (this.data['erected_at']) {
         info += '<p>Erected: ' + this.data['erected_at'] + '</p>';
     }
+    if (this.data['photographed?']) {
+        info += '<p><img src="' + this.data['thumbnail_url'] + '"></p>';
+    }
     return info;
 }
 
