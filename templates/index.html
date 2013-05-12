@@ -1,34 +1,13 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <title>Local Plaques</title>
+{% extends "layout.html" %}
+{% block head_content %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
     <![endif]-->
     <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
-    <style type="text/css">
-        body, h1, h2 { padding: 0; margin: 0; }
-        html, body { height: 100%; }
-        #map { height: 96%; }
-        #header { height: 4%; overflow: hidden; }
-        body { font-family: Arial; }
-        h1, h2 { font-weight: normal; }
-        h1 { font-size: 1.4em;}
-        h2 { font-size: 1.2em;}
-        h1 a, h2 a { color: #000; text-decoration: none; }
-        h1 a:hover, h2 a:hover { color: #666; }
-        #header h1 { float: left; }
-        #header h2 { float: right; }
-    </style>
-</head>
-
-<body>
-    <div id="header">
-        <h1><a href="/">Local Plaques</a></h1>
-        <h2><a href="/about">about</a></h2>
-    </div>
+{% endblock %}
+{% block content %}
     <div id="map">Getting data</div>
     <noscript>This page uses Javascript</noscript>
     <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
@@ -38,5 +17,4 @@
         app.init();
     }, 0);
     </script> 
-</body>
-</html>
+{% endblock %}

@@ -39,7 +39,9 @@ def plaques(**kwargs):
 
 @app.route("/about")
 def about():
-    return "Info"
+    response = make_response(render_template("about.html"))
+    response.headers['Cache-control'] = 'max-age=3600'
+    return response
 
 def get_url(**kwargs):
     base_url = "http://openplaques.org"
