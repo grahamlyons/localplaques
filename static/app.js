@@ -34,12 +34,9 @@ Map.prototype.hasPlaque = function(plaque) {
 
 Map.prototype.addPlaque = function(plaque) {
     if (!this.hasPlaque(plaque)) {
-        console.log("Adding plaque", plaque.id);
         var marker = this.engine.marker(plaque.latlng()).addTo(this.map);
         marker.bindPopup(plaque.info());
         this.plaques[plaque.id] = plaque;
-    } else {
-        console.log("Not adding plaque", plaque.id);
     }
     return this;
 }
@@ -94,8 +91,10 @@ Client.prototype.getPlaques = function(bounds, callback) {
     );
     this.xhr.onreadystatechange = function(e) {
         if (self.xhr.readyState == self.xhr.DONE) {
-            var json = JSON.parse(self.xhr.response);
-            callback(json);
+            if (self.xhr.response) {
+                var json = JSON.parse(self.xhr.response);
+                callback(json);
+            }
         }
     }
     this.xhr.send();
