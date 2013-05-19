@@ -1,4 +1,5 @@
-from flask import Flask, render_template, make_response, abort
+import os
+from flask import Flask, render_template, make_response, abort, send_from_directory
 from httplib2 import Http
 
 class Cache(dict):
@@ -42,6 +43,13 @@ def about():
     response = make_response(render_template("about.html"))
     response.headers['Cache-control'] = 'max-age=3600'
     return response
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(
+        os.path.join(app.root_path, 'static'),
+        'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 
 def get_url(**kwargs):
     base_url = "http://openplaques.org"
