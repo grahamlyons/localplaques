@@ -17,13 +17,24 @@ function Map(element, engine) {
     }).addTo(this.map);
 }
 
-Map.prototype.setCentre = function(location) {
+Map.prototype.setCentre = function(location, accuracy) {
     var icon = this.engine.icon({
-        iconUrl: '/static/you-are-here.png'
+        iconUrl: '/static/you-are-here.png',
+        iconSize: [32,32],
+        iconAnchor: [16,30]
     }),
-    marker = this.engine.marker(location, {icon: icon, title: 'You are here'});
+    marker = this.engine.marker(location, {icon: icon, title: 'You are here'}),
+    circle;
     this.map.panTo(location);
     marker.addTo(this.map);
+    if (accuracy) {
+        circle = this.engine.circle(location, accuracy, {
+            color: '#f03',
+            weight: 3,
+            fillOpacity: 0.1
+        }); 
+        circle.addTo(this.map);
+    }
     return this;
 }
 
@@ -123,14 +134,14 @@ App.prototype.init = function() {
             var lat = Tools.precision(e.coords.latitude),
                 lng = Tools.precision(e.coords.longitude),
                 location = [lat, lng];
-            self.setup(location);
+            self.setup(location, e.coords.accuracy/2);
         });
     }
 }
 
-App.prototype.setup = function(location) {
+App.prototype.setup = function(location, accuracy) {
     var self = this;
-    this.map.setCentre(location);
+    this.map.setCentre(location, accuracy);
     function getPlaques() {
         var client = new Client(),
             bounds = self.map.getBounds(),
