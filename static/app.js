@@ -146,7 +146,9 @@ App.prototype.setup = function(location, accuracy) {
         var client = new Client(),
             bounds = self.map.getBounds(),
             addPlaquesToMap = function(data) {
-                var plaques = data.map(function(p){return new Plaque(p);});
+                var plaques = data.features.map(function(p) {
+                  return new Plaque(p.properties);
+                });
                 var addPlaque = function(plaque) {
                     self.map.addPlaque.call(self.map, plaque)
                 }
