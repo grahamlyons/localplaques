@@ -62,7 +62,7 @@ Map.prototype.onMoveEnd = function(callback) {
 }
 
 function Plaque(data) {
-    this.data = data['plaque'];
+    this.data = data;
     this.id = this.data.id;
 }
 
@@ -75,8 +75,12 @@ Plaque.prototype.latlng = function() {
 
 Plaque.prototype.info = function() {
     var info = '';
-    info += '<h2>' + this.data['title'] + '</h2>';
-    info += '<p>' + this.data['inscription'] + '</p>';
+    if(this.data['title']) {
+        info += '<h2>' + this.data['title'] + '</h2>';
+    }
+    if(this.data['inscription']) {
+        info += '<p>' + this.data['inscription'] + '</p>';
+    }
     if (this.data['erected_at']) {
         info += '<p>Erected: ' + this.data['erected_at'] + '</p>';
     }
@@ -146,8 +150,8 @@ App.prototype.setup = function(location, accuracy) {
         var client = new Client(),
             bounds = self.map.getBounds(),
             addPlaquesToMap = function(data) {
-                var plaques = data.features.map(function(p) {
-                  return new Plaque(p.properties);
+                var plaques = data.map(function(p) {
+                  return new Plaque(p);
                 });
                 var addPlaque = function(plaque) {
                     self.map.addPlaque.call(self.map, plaque)
