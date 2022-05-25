@@ -32,5 +32,6 @@ RUN npm install
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/views ./views
+COPY --from=build /app/public ./public
 
 CMD ["npm", "start"]

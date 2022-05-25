@@ -1,6 +1,8 @@
 import express, {Express, NextFunction, Request, Response } from 'express';
 import { engine } from 'express-handlebars';
 import morgan from 'morgan';
+import path from 'path';
+import sassMiddleware from 'node-sass-middleware';
 
 const app: Express = express();
 const port: number = Number(process.env.PORT) || 3000;
@@ -19,6 +21,14 @@ function errorHandler (err: Error, req: Request, res: Response, next: NextFuncti
 }
 
 app.use(errorHandler);
+
+app.use(sassMiddleware({                                                           
+  src: path.join(__dirname, '../public'),                                             
+  dest: path.join(__dirname, '../public'),                                            
+  indentedSyntax: false,
+  sourceMap: true                                                                  
+}));
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/', (req: Request, res: Response) => {
   res.render('index');
