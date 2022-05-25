@@ -31,5 +31,6 @@ ENV NODE_ENV production
 RUN npm install
 
 COPY --from=build /app/dist ./dist
+COPY --from=build /app/views ./views
 
 CMD ["npm", "start"]
