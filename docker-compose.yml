@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  web:
+    build: .
+  acceptance-tests:
+    image: cypress/included:9.6.1 
+    working_dir: /tests
+    volumes:
+      - $PWD:/tests
+    environment:
+      - CYPRESS_baseUrl=http://web:3000/
+    depends_on:
+      - web
